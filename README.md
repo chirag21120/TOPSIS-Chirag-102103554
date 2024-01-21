@@ -10,7 +10,7 @@ It is a method of compensatory aggregation that compares a set of alternatives b
 ### How to run in command prompt
 
 ```sh
->> from Topsis_Chirag_102103554.102103554 import topsis
+>> from Topsis_Chirag_102103554.topsis_102103554 import topsis
 >> topsis("data.csv","1,1,1,2","+,+,-,+","result.csv")
 ```
 
