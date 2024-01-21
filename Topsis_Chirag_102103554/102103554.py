@@ -37,6 +37,8 @@ def topsis(input_file, weights, impacts, output_file):
 
             if not all(is_numeric(df.iloc[:, i]) for i in range(1, len(df.columns))):
                 raise ValueError('Columns from 2nd to last must contain numeric values.')
+            
+            rows = df.shape[0]
 
             # Normalize the matrix
             for col in range(1, len(df.columns)):
@@ -52,10 +54,10 @@ def topsis(input_file, weights, impacts, output_file):
             v_worst = df.min(axis=0)[1:]
 
             # Calculate Si+ and Si-
-            s_best = np.linalg.norm(df.iloc[:, 1:] - v_best, axis=1)
-            s_worst = np.linalg.norm(df.iloc[:, 1:] - v_worst, axis=1)
+            s_best = [math.sqrt(sum((df.iloc[row, 1:] - v_best) ** 2)) for row in range(rows)]
+            s_worst = [math.sqrt(sum((df.iloc[row, 1:] - v_worst) ** 2)) for row in range(rows)]
 
-            pi = s_worst / (s_worst + s_best)
+            pi = np.array(s_worst) / (np.array(s_worst) + np.array(s_best))
 
             df['Topsis Score'] = pi
             df['Rank'] = df['Topsis Score'].rank(ascending=False)
